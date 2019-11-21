@@ -1,3 +1,5 @@
+from random import *
+
 def convertirMsg(msg):
     msgChiffree = "";
 
@@ -36,6 +38,16 @@ def decoupageBloc(msgChiffree):
     
     return listBloc
 
-def encoderListBloc(listBloc):
+def encoderListBloc(clePublic, listBloc):
+    print(clePublic)
+    nPremier = clePublic[0]
+    m = clePublic[1]
+    k = randint(0, nPremier - 1)
+    k = 13 # TEST comme modèle
+
+    y1 = m**k % nPremier
+    print(y1)
+    
+
     for bloc in listBloc:
         return
