@@ -39,15 +39,36 @@ def decoupageBloc(msgChiffree):
     return listBloc
 
 def encoderListBloc(clePublic, listBloc):
-    print(clePublic)
     nPremier = clePublic[0]
     m = clePublic[1]
-    k = randint(0, nPremier - 1)
-    k = 13 # TEST comme modèle
-
-    y1 = m**k % nPremier
-    print(y1)
-    
+    n = clePublic[2]
 
     for bloc in listBloc:
-        return
+        blocEntier = int(bloc)
+        k = randint(0, nPremier - 1)
+        k = 13 # TEST comme modèle
+
+        y1 = expMod(m, k, nPremier)
+        y2 = blocEntier * expMod(n, k, nPremier) % nPremier
+        y2 = (blocEntier * n**k) % nPremier
+        newBloc = (y1, y2)
+        
+        listBloc[listBloc.index(bloc)] = newBloc
+
+    return listBloc
+
+def expMod(nombre, puissance, modulo): # Exponentiation modulaire
+    p = puissance
+    count = 0
+    sumRes = 1
+    while p >= 1:
+        resMod = p % 2
+        
+        if resMod == 1:
+            sumRes *= nombre ** (2 ** count)
+            sumRes %= modulo
+
+        p = p // 2
+        count += 1
+
+    return sumRes
