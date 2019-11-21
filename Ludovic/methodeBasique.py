@@ -4,9 +4,8 @@ from time import *
 import math
 
 def nbPremier():
-    cpt=0
-    puissanceMin = math.pow(10, 12)
-    puissanceMax = math.pow(10, 13)
+    puissanceMin = math.pow(10, 7)
+    puissanceMax = math.pow(10, 8)
     p = randint(puissanceMin, puissanceMax)
     while p % 2 == 0:
         p = randint(puissanceMin, puissanceMax)
@@ -14,7 +13,6 @@ def nbPremier():
     sqrt = math.sqrt(p)
     while n <= sqrt:
         if (p / n).is_integer():
-            cpt = cpt + 1
             p = randint(puissanceMin, puissanceMax)
             while p % 2 == 0:
                 p = randint(puissanceMin, puissanceMax)
@@ -31,7 +29,7 @@ def tempsPremier():
         debut = time()
         p = nbPremier()
         fin = time()
-        print(round(((i+n)/n-1)*100, 2), "%")
+        print(round(((i+n)/n-1)*100, 2), "%, nombre : ", p)
         temps += fin - debut
     return temps / n
 
