@@ -2,10 +2,9 @@
 from random import *
 from time import *
 import math
+from sys import argv
 
-def nbPremier():
-    puissanceMin = math.pow(10, 12)
-    puissanceMax = math.pow(10, 13)
+def nbPremier(puissanceMin, puissanceMax):
     p = randint(puissanceMin, puissanceMax)
     while p % 2 == 0:
         p = randint(puissanceMin, puissanceMax)
@@ -23,18 +22,17 @@ def nbPremier():
     return p
 
 def tempsPremier():
+    puissanceMin = math.pow(10, int(argv[1]))
+    puissanceMax = math.pow(10, int(argv[2]))
     temps = 0
     n = 100
     for i in range(n):
         debut = time()
-        p = nbPremier()
+        p = nbPremier(puissanceMin, puissanceMax)
         fin = time()
         print(round(((i+n)/n-1)*100, 2), "%, nombre : ", p)
         temps += fin - debut
     return temps / n
 
-print("Generation du nombre premier...")
-p = nbPremier()
-print("Nombre premier : ", p)
 print("calcul du temps moyen...")
 print("temps moyen : ", tempsPremier(), " s")

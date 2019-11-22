@@ -4,6 +4,7 @@ sys.path.append("../Antonin")
 from random import *
 from time import *
 import math
+from sys import argv
 
 def temoin(n,a):
     d = n - 1
@@ -28,9 +29,7 @@ def millerRabin(n, k):
             return False
     return True
 
-def nbPremier():
-    puissanceMin = math.pow(10, 12)
-    puissanceMax = math.pow(10, 13)
+def nbPremier(puissanceMin, puissanceMax):
     n = randint(puissanceMin, puissanceMax)
     while n % 2 == 0:
         n = randint(puissanceMin, puissanceMax)
@@ -41,19 +40,18 @@ def nbPremier():
     return n
 
 def tempsPremier():
+    puissanceMin = 10**int(argv[1])
+    puissanceMax = 10**int(argv[2])
     temps = 0
-    n = 100
+    n = 1000
     for i in range(n):
         debut = time()
-        p = nbPremier()
+        p = nbPremier(puissanceMin, puissanceMax)
         fin = time()
         print(round(((i+n)/n-1)*100, 2), "%, nombre : ", p)
         temps += fin - debut
     return temps / n
 
 
-print("Generation du nombre premier...")
-p = nbPremier()
-print("Nombre premier : ", p)
 print("calcul du temps moyen...")
 print("temps moyen : ", tempsPremier(), " s")
