@@ -1,4 +1,6 @@
 # coding: utf8
+import sys
+sys.path.append("../Antonin")
 from random import *
 from time import *
 import math
@@ -7,9 +9,9 @@ def temoin(n,a):
     d = n - 1
     s = 0
     while d % 2 == 0:
-        d /= 2
+        d = d//2
         s += 1
-        x = a**d % n
+        x = pow(a, d, n) # Pourquoi plus puissant que exponentation modulaire
         for i in range(s):
             xi = x**2 % n 
             if xi == 1 and x !=1 and x != n-1:
@@ -19,18 +21,23 @@ def temoin(n,a):
             return True
     return False
 
-def nbPremier(k):
-    puissanceMin = math.pow(10, 7)
-    puissanceMax = math.pow(10, 8)
-    n = randint(puissanceMin, puissanceMax)
-    while n % 2 == 0:
-        n = randint(puissanceMin, puissanceMax)
+def millerRabin(n, k):
     for i in range(k):
         a = randint(2, n-2)
         if temoin(n, a):
-            print("pas premier")
-            return n
-    print("surement premier")
+            return False
+    return True
+
+def nbPremier():
+    puissanceMin = math.pow(10, 12)
+    puissanceMax = math.pow(10, 13)
+    n = randint(puissanceMin, puissanceMax)
+    while n % 2 == 0:
+        n = randint(puissanceMin, puissanceMax)
+    while not millerRabin(n, 1):
+        n = randint(puissanceMin, puissanceMax)
+        while n % 2 == 0:
+            n = randint(puissanceMin, puissanceMax)
     return n
 
 def tempsPremier():
@@ -38,7 +45,7 @@ def tempsPremier():
     n = 100
     for i in range(n):
         debut = time()
-        p = nbPremier(10)
+        p = nbPremier()
         fin = time()
         print(round(((i+n)/n-1)*100, 2), "%, nombre : ", p)
         temps += fin - debut
@@ -46,7 +53,7 @@ def tempsPremier():
 
 
 print("Generation du nombre premier...")
-p = nbPremier(10)
+p = nbPremier()
 print("Nombre premier : ", p)
-#print("calcul du temps moyen...")
-#print("temps moyen : ", tempsPremier(), " s")
+print("calcul du temps moyen...")
+print("temps moyen : ", tempsPremier(), " s")

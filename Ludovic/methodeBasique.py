@@ -4,8 +4,8 @@ from time import *
 import math
 
 def nbPremier():
-    puissanceMin = math.pow(10, 7)
-    puissanceMax = math.pow(10, 8)
+    puissanceMin = math.pow(10, 12)
+    puissanceMax = math.pow(10, 13)
     p = randint(puissanceMin, puissanceMax)
     while p % 2 == 0:
         p = randint(puissanceMin, puissanceMax)
