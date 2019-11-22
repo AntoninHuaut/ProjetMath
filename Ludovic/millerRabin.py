@@ -9,8 +9,15 @@ def temoin(n,a):
     while d % 2 == 0:
         d /= 2
         s += 1
-    print(int(d), s)
-    return True
+        x = a**d % n
+        for i in range(s):
+            xi = x**2 % n 
+            if xi == 1 and x !=1 and x != n-1:
+                return True
+            x = xi
+        if x != 1:
+            return True
+    return False
 
 def nbPremier(k):
     puissanceMin = math.pow(10, 7)
@@ -31,7 +38,7 @@ def tempsPremier():
     n = 100
     for i in range(n):
         debut = time()
-        p = nbPremier(100)
+        p = nbPremier(10)
         fin = time()
         print(round(((i+n)/n-1)*100, 2), "%, nombre : ", p)
         temps += fin - debut
@@ -39,7 +46,7 @@ def tempsPremier():
 
 
 print("Generation du nombre premier...")
-p = nbPremier(100)
+p = nbPremier(10)
 print("Nombre premier : ", p)
 #print("calcul du temps moyen...")
 #print("temps moyen : ", tempsPremier(), " s")
