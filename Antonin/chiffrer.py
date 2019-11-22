@@ -1,25 +1,15 @@
-from random import *
+from random import randint
+import utils
 
 def convertirMsg(msg):
-    msgChiffree = "";
+    mBytes = msg.encode("utf-8")
+    mInt = int.from_bytes(mBytes, byteorder="big")
+    return str(mInt)
 
-    for lettre in msg:
-        ordAlphabet = ord(lettre) - 96
-        if (ordAlphabet < 10):
-            ordAlphabet = "0" + str(ordAlphabet)
-        
-        msgChiffree += str(ordAlphabet)
-
-    return msgChiffree
-
-def decoupageBloc(msgChiffree):
+def decoupageBloc(msgConverti):
     listBloc = []
 
-    for numStr in msgChiffree:
-        num = int(numStr)
-
-        if (len(listBloc) == 0 and num == 0): continue # Si on commence par un 0, on ignore
-
+    for numStr in msgConverti:
         if (len(listBloc) == 0):
             listBloc.append(numStr)
             continue
@@ -31,10 +21,9 @@ def decoupageBloc(msgChiffree):
             listBloc[index] = bloc + numStr
         else:
             listBloc.append(numStr)
-
-    index = len(listBloc) - 1;
-    while (len(listBloc[index]) < 3):
-        listBloc[index] = listBloc[index] + "0"
+            
+    for bloc in listBloc:
+        listBloc[listBloc.index(bloc)] = int(bloc)
     
     return listBloc
 
@@ -44,31 +33,12 @@ def encoderListBloc(clePublic, listBloc):
     n = clePublic[2]
 
     for bloc in listBloc:
-        blocEntier = int(bloc)
         k = randint(0, nPremier - 1)
-        k = 13 # TEST comme modèle
 
-        y1 = expMod(m, k, nPremier)
-        y2 = blocEntier * expMod(n, k, nPremier) % nPremier
-        y2 = (blocEntier * n**k) % nPremier
+        y1 = utils.expMod(m, k, nPremier)
+        y2 = bloc * utils.expMod(n, k, nPremier) % nPremier
         newBloc = (y1, y2)
         
         listBloc[listBloc.index(bloc)] = newBloc
 
     return listBloc
-
-def expMod(nombre, puissance, modulo): # Exponentiation modulaire
-    p = puissance
-    count = 0
-    sumRes = 1
-    while p >= 1:
-        resMod = p % 2
-        
-        if resMod == 1:
-            sumRes *= nombre ** (2 ** count)
-            sumRes %= modulo
-
-        p = p // 2
-        count += 1
-
-    return sumRes
