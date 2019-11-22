@@ -8,4 +8,4 @@ Applications :
     => Chiffrement
     => Signature
     => Authentification
-    => Chiffrement homorphe (2+3 = 5 en chiffré)
+    => Chiffrement homomorphe (2+3 = 5 en chiffré)
