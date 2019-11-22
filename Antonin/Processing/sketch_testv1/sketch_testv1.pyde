@@ -1,6 +1,6 @@
 global tick, nbEtape, msgEtape, imgPublic, imgPrivee, imgBob, imgAlice
-tick, nbEtape = 1, 1
-msgEtape = {1: "Situation de départ : Alice & Bob", 2: "Alice : génération de la paire de clés", 3: "Bob : génération de la paire de clés"}
+tick, nbEtape = 1, 0
+msgEtape = ["Situation de départ : Alice & Bob\nveulent s'envoyer un message", "Ils veulent que leur message\nne puisse pas être lu par d'autres personnes", "Alice : génération de la paire de clés", "Bob : génération de la paire de clés"]
 
 def setup():
     frameRate(30)
@@ -17,7 +17,7 @@ def setup():
     bob = Personne(width - 150, height - 350, 200, "bot", "Bob")
     
     etape = Txt("Etape", 32)
-    etape.updatePos(width/2, height - 100)
+    etape.updatePos(width/2, height - 125)
     etape.setCouleur(255, 204, 0)
  
 def draw():
@@ -27,7 +27,7 @@ def draw():
     alice.show()
     bob.show()
     
-    newTexte = "Etape " + str(nbEtape) + "\n" + msgEtape.get(nbEtape)
+    newTexte = "Etape " + str(nbEtape+1) + "\n" + msgEtape[nbEtape]
     
     etape.setTexte(newTexte)
     etape.show()
@@ -46,10 +46,10 @@ def keyReleased():
     global nbEtape
     
     if keyCode == 37:
-        if nbEtape-1 in msgEtape:
+        if nbEtape > 0:
             nbEtape -= 1
     elif keyCode == 39:
-        if nbEtape+1 in msgEtape:
+        if nbEtape+1 < len(msgEtape):
             nbEtape += 1
     
 class Personne:
