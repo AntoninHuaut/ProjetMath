@@ -5,7 +5,7 @@ framerate, speedAnim = 60, 2.5
 # -------------
 
 nbEtape, inAnimation = 0, 0
-msgEtape = ["Situation de départ : Alice & Bob\nveulent s'envoyer un message", "Ils veulent que leur message\nne puisse pas être lu par d'autres personnes", "Alice : génération de la paire de clés", "Bob : génération de la paire de clés",
+msgEtape = ["Situation de départ : Alice et Bob\nveulent s'envoyer un message", "Ils ne veulent pas que leurs messages\npuissent être lus par d'autres personnes", "Alice : génération de la paire de clés", "Bob : génération de la paire de clés",
             "Bob récupère la clé publique d'Alice"]
 
 def setup():
@@ -13,7 +13,6 @@ def setup():
     size(850, 850)
     textAlign(CENTER);
     global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, nbEtape
-    nbEtape = 4
     
     imgPublicAlice = loadImage("clePublicAlice.png")
     imgPublicBob = loadImage("clePublicBob.png")
