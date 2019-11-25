@@ -13,14 +13,14 @@ def temoin(n,a):
     while d % 2 == 0:
         d = d//2
         s += 1
-        x = expMod(a, d, n)
-        for i in range(s):
-            xi = x**2 % n 
-            if xi == 1 and x !=1 and x != n-1:
-                return True
-            x = xi
-        if x != 1:
+    x = expMod(a, d, n)
+    for i in range(s):
+        xi = x**2 % n 
+        if xi == 1 and x !=1 and x != n-1:
             return True
+        x = xi
+    if x != 1:
+        return True
     return False
 
 def millerRabin(n, k):
