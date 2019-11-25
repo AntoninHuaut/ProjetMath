@@ -14,7 +14,6 @@ def setup():
     size(850, 850)
     textAlign(CENTER);
     global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, imgRefresh, imgMessage, imgMessageLock, nbEtape
-    nbEtape = 8
     
     imgPublicAlice = loadImage("clePublicAlice.png")
     imgPublicBob = loadImage("clePublicBob.png")
