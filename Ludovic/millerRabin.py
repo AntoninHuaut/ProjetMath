@@ -1,6 +1,7 @@
 # coding: utf8
 import sys
 sys.path.append("../Antonin")
+from utils import expMod
 from random import *
 from time import *
 import math
@@ -12,7 +13,7 @@ def temoin(n,a):
     while d % 2 == 0:
         d = d//2
         s += 1
-        x = pow(a, d, n) # Pourquoi plus puissant que exponentiation modulaire
+        x = expMod(a, d, n)
         for i in range(s):
             xi = x**2 % n 
             if xi == 1 and x !=1 and x != n-1:
@@ -58,5 +59,3 @@ def tempsPremier():
     return temps / n
 
 
-print("calcul du temps moyen...")
-print("temps moyen : ", tempsPremier(), " s")

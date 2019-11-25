@@ -1,4 +1,7 @@
 # coding: utf8
+import sys
+sys.path.append("../Antonin")
+from utils import expMod
 from random import *
 from time import *
 import math
