@@ -1,3 +1,7 @@
+import sys
+sys.path.append("../Ludovic")
+from millerRabin import nbPremier
+from utils import expMod
 import prime
 import random
 
@@ -7,14 +11,11 @@ priveAlice = 0
 publicAlice = 0
 
 def genere_cle():
-    p = 0
-    
-    while p < 1000: # p doit être supérieur au nombre contenu dans chaque bloc. Les blocs étant par 3, ils peuvent atteindre 999. Donc p doit être minimum égal à 1000
-        p = prime.getRandomPrime(5000)
+    p = nbPremier(300, 301, 128) # (10^)100 car mini 100 de longueurs de précisions 128 (~ 3 * 10^-39 chance de non premier)
 
-    a = random.randint(1, p - 2)
-    m = random.randint(1, p - 1)
-    n = m**a % p
+    a = random.randint(10**100, p - 2) # 100 car mini 100 de longueurs
+    m = random.randint(10**100, p - 1) # 100 car mini 100 de longueurs
+    n = expMod(m, a, p)
 
     return [a, (p, m, n)]
 
