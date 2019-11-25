@@ -1,18 +1,20 @@
-global speedAnim, framerate, nbEtape, msgEtape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgBob, imgAlice, inAnimation
+global speedAnim, framerate, nbEtape, msgEtape, tick, inAnimation
 
 # CONFIGURATION
 framerate, speedAnim = 60, 2.5
 # -------------
 
-nbEtape, inAnimation = 0, 0
+nbEtape, inAnimation, tick = 0, 0, 0
 msgEtape = ["Situation de départ : Alice et Bob\nveulent s'envoyer un message", "Ils ne veulent pas que leurs messages\npuissent être lus par d'autres personnes", "Alice : génération de la paire de clés", "Bob : génération de la paire de clés",
-            "Bob récupère la clé publique d'Alice"]
+            "Bob récupère la clé publique d'Alice", "Bob génère et chiffre son message\n en utilisant la clé publique d'Alice", "Bob envoie son message chiffré à Alice",
+            "Alice récupère le message chiffré de Bob", "Alice utilise sa clé privée\npour déchiffrer le message"]
 
 def setup():
     frameRate(framerate)
     size(850, 850)
     textAlign(CENTER);
-    global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, nbEtape
+    global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, imgRefresh, imgMessage, imgMessageLock, nbEtape
+    nbEtape = 8
     
     imgPublicAlice = loadImage("clePublicAlice.png")
     imgPublicBob = loadImage("clePublicBob.png")
@@ -20,6 +22,9 @@ def setup():
     imgPriveeBob = loadImage("clePriveeBob.png")
     imgAlice = loadImage("bFemme.png")
     imgBob = loadImage("bHomme.png")
+    imgRefresh = loadImage("refresh.png")
+    imgMessage = loadImage("message.png")
+    imgMessageLock = loadImage("messageLock.png")
     
     alice = Personne(150, 150, 200, "top", "Alice")
     bob = Personne(width - 150, height - 350, 200, "bot", "Bob")
@@ -27,10 +32,11 @@ def setup():
     etape = Txt("Etape", 32)
     etape.updatePos(width/2, height - 125)
     etape.setCouleur(255, 204, 0)
+    resetAnim()
  
 def draw():
     background(128)
-    global nbEtape
+    global nbEtape, tick
     
     alice.show()
     bob.show()
@@ -41,11 +47,12 @@ def draw():
     etape.show()
     
     executeAction()
+    tick += 1
 
-global cleAnim
+global cleAnim, messageAnim, messageLockAnim, angle
 
 def executeAction():
-    global inAnimation, cleAnim
+    global inAnimation, cleAnim, messageAnim, messageLockAnim, tick, angle
     if nbEtape >= 2:
         alice.showCle()
     if nbEtape >= 3:
@@ -59,10 +66,80 @@ def executeAction():
         else:
             cleAnim.show()
             cleAnim.addPos(0.975 * speedAnim, 0.5 * speedAnim)
+    if nbEtape == 5:
+        if inAnimation == 0:
+            inAnimation = 1
+            angle = 0
+            cleAnim = imgRefresh
+        else:
+            if tick > frameRate * speedAnim/2:
+                messageLockAnim = IMGType(bob.x, bob.y, bob)
+            else:
+                SIGS = (-1, -1), (1, -1), (1, 1), (-1, 1)
+                NUM = len(SIGS)
+                X, Y = bob.x - 48/2 * 3, bob.y - 48 * 3
+                sigX, sigY = SIGS[frameCount/10 % NUM]
+ 
+                x = X*sigX + cleAnim.width*(sigX>>1)
+                y = Y*sigY + cleAnim.height*(sigY>>1)
+ 
+                rotate(QUARTER_PI*.25)
+                scale(sigX, sigY)
+                image(cleAnim, x, y)
+                
+            if messageLockAnim != None:
+                messageLockAnim.setNom("MESSAGELOCK")
+                messageLockAnim.addPos(-bob.taille*0.125 * 6, -bob.taille*0.125 * 6)
+                messageLockAnim.show()
+    if nbEtape == 6:
+        if inAnimation == 0:
+            inAnimation = 1
+            messageLockAnim = IMGType(bob.x, bob.y, bob)
+            messageLockAnim.setNom("MESSAGELOCK")
+            messageLockAnim.addPos(-bob.taille*0.125 * 6, -bob.taille*0.125 * 6)
+        elif messageLockAnim.y <= alice.publicCle.y*1.03:
+            resetAnim()
+        else:
+            messageLockAnim.show()
+            messageLockAnim.addPos(-1 * speedAnim, -0.5 * speedAnim)
+    if nbEtape == 7:
+        if messageLockAnim == None:
+            messageLockAnim = IMGType(alice.x, alice.y, alice)
+            messageLockAnim.setNom("MESSAGELOCK")
+            messageLockAnim.addPos(bob.taille*0.125 * 4, alice.taille*0.125 * 2)
+        messageLockAnim.show()
+    if nbEtape == 8:
+        if inAnimation == 0:
+            inAnimation = 1
+            angle = 0
+            cleAnim = imgRefresh
+        else:
+            if tick > frameRate * speedAnim/2:
+                messageAnim = IMGType(alice.x, alice.y, alice)
+            else:
+                SIGS = (-1, -1), (1, -1), (1, 1), (-1, 1)
+                NUM = len(SIGS)
+                X, Y = alice.x + alice.taille/2 + 48/1.5, alice.y - alice.taille/2 + 48/1.5
+                sigX, sigY = SIGS[frameCount/10 % NUM]
+ 
+                x = X*sigX + cleAnim.width*(sigX>>1)
+                y = Y*sigY + cleAnim.height*(sigY>>1)
+ 
+                rotate(QUARTER_PI*.25)
+                scale(sigX, sigY)
+                image(cleAnim, x, y)
+                
+            if messageAnim != None:
+                messageAnim.setNom("MESSAGE")
+                messageAnim.addPos(alice.taille*0.125 * 4, alice.taille*0.125 * 2)
+                messageAnim.show()
             
 def resetAnim():
-    global inAnimation
+    global inAnimation, tick, messageAnim, messageLockAnim
     inAnimation = 0
+    tick = 0
+    messageAnim = None
+    messageLockAnim = None
 
 def keyReleased():
     """Permet de changer l'étape actuel via les touches flèches (gauche/droite) """
@@ -99,7 +176,7 @@ class Personne:
     self.priveCle = cles[1]
     
   def genCle(self):
-      return Cle(self.x - self.taille/3, self.y - self.taille/3, self)
+      return IMGType(self.x - self.taille/3, self.y - self.taille/3, self)
   
   def genClePos(self):
       cle1 = self.genCle()
@@ -148,7 +225,7 @@ class ImagePerso:
     def show(self):
         image(self.img, self.x, self.y, self.width, self.height)
 
-class Cle:
+class IMGType:
     def __init__(self, x, y, personne):
         self.x = x
         self.y = y
@@ -175,6 +252,10 @@ class Cle:
                 image(imgPriveeAlice,  self.x, self.y, 48, 48)
             else:
                 image(imgPriveeBob,  self.x, self.y, 48, 48)
+        elif self.nom == "MESSAGELOCK":
+            image(imgMessageLock,  self.x, self.y, 48, 48)
+        elif self.nom == "MESSAGE":
+            image(imgMessage,  self.x, self.y, 48, 48)
 
 class Txt:
     def __init__(self, texte, texteSize):
