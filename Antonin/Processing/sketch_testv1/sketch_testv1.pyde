@@ -1,19 +1,19 @@
-global speedAnim, framerate, nbEtape, msgEtape, tick, inAnimation
+global speedAnim, framerate, nbEtape, msgEtape, tick, tickMechant, inAnimation
 
 # CONFIGURATION
 framerate, speedAnim = 60, 2.5
 # -------------
 
-nbEtape, inAnimation, tick = 0, 0, 0
+nbEtape, inAnimation, tick, tickMechant = 0, 0, 0, 0
 msgEtape = ["Situation de départ : Alice et Bob\nveulent s'envoyer un message", "Ils ne veulent pas que leurs messages\npuissent être lus par d'autres personnes", "Alice : génération de la paire de clés", "Bob : génération de la paire de clés",
             "Bob récupère la clé publique d'Alice", "Bob génère et chiffre son message\n en utilisant la clé publique d'Alice", "Bob envoie son message chiffré à Alice",
             "Alice récupère le message chiffré de Bob", "Alice utilise sa clé privée\npour déchiffrer le message"]
 
 def setup():
     frameRate(framerate)
-    size(850, 850)
+    size(850, 850) 
     textAlign(CENTER);
-    global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, imgRefresh, imgMessage, imgMessageLock, nbEtape
+    global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, imgRefresh, imgMessage, imgMessageLock, imgMechant, nbEtape
     
     imgPublicAlice = loadImage("clePublicAlice.png")
     imgPublicBob = loadImage("clePublicBob.png")
@@ -24,6 +24,7 @@ def setup():
     imgRefresh = loadImage("refresh.png")
     imgMessage = loadImage("message.png")
     imgMessageLock = loadImage("messageLock.png")
+    imgMechant = loadImage("shaco.png")
     
     alice = Personne(150, 150, 200, "top", "Alice")
     bob = Personne(width - 150, height - 350, 200, "bot", "Bob")
@@ -39,6 +40,17 @@ def draw():
     
     alice.show()
     bob.show()
+    
+    for i in range(1, 3):
+        mechantAlice = IMGType(150, 150, alice)
+        mechantAlice.setNom("MECHANT")
+        mechantAlice.addPos(120 * i, 170 * i)
+        mechantAlice.show()
+        
+        mechantBob = IMGType(350, 50, alice)
+        mechantBob.setNom("MECHANT")
+        mechantBob.addPos(120 * i, 120 * i)
+        mechantBob.show()
     
     newTexte = "Etape " + str(nbEtape+1) + "\n" + msgEtape[nbEtape]
     
@@ -255,6 +267,8 @@ class IMGType:
             image(imgMessageLock,  self.x, self.y, 48, 48)
         elif self.nom == "MESSAGE":
             image(imgMessage,  self.x, self.y, 48, 48)
+        elif self.nom == "MECHANT":
+            image(imgMechant,  self.x, self.y, 48, 48)
 
 class Txt:
     def __init__(self, texte, texteSize):
