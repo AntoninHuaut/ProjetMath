@@ -71,7 +71,7 @@ def executeAction():
             angle = 0
             cleAnim = imgRefresh
         else:
-            if tick > frameRate * speedAnim/2:
+            if tick > frameRate:
                 messageLockAnim = IMGType(bob.x, bob.y, bob)
             else:
                 SIGS = (-1, -1), (1, -1), (1, 1), (-1, 1)
@@ -113,7 +113,7 @@ def executeAction():
             angle = 0
             cleAnim = imgRefresh
         else:
-            if tick > frameRate * speedAnim/2:
+            if tick > frameRate:
                 messageAnim = IMGType(alice.x, alice.y, alice)
             else:
                 SIGS = (-1, -1), (1, -1), (1, 1), (-1, 1)
