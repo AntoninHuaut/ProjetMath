@@ -145,14 +145,14 @@ def keyReleased():
     global nbEtape
     
     if not (keyCode == 37 or keyCode == 39): return
-        
-    resetAnim()
     
     if keyCode == 37:
         if nbEtape > 0:
+            resetAnim()
             nbEtape -= 1
     elif keyCode == 39:
         if nbEtape+1 < len(msgEtape):
+            resetAnim()
             nbEtape += 1
     
 class Personne:
