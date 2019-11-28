@@ -1,5 +1,3 @@
-import sys
-sys.path.append("./Clémence")
 from time import *
 from logDiscret import discreteLogarithm
 
