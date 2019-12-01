@@ -1,6 +1,6 @@
 # coding: utf8
 import sys
-sys.path.append("../Antonin")
+sys.path.append("../ElGamal")
 from utils import expMod
 from random import *
 from time import *

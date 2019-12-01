@@ -1,5 +1,7 @@
-from time import time
+import sys
+sys.path.append("../ElGamal")
 from utils import expMod
+from time import time
 
 start = time()
 res1 = pow(5631219912, 91122) % 72

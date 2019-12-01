@@ -1,8 +1,7 @@
 import sys
-sys.path.append("../Ludovic")
+sys.path.append("../NBPremier")
 from millerRabin import nbPremier
 from utils import expMod
-import prime
 import random
 
 global priveAlice
