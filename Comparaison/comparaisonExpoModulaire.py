@@ -1,3 +1,5 @@
+# Script permettant de comparer le temps de calcul entre a^b [c] de façon naïve et via l'exponentiation modulaire
+
 import sys
 sys.path.append("../ElGamal")
 from utils import expMod
