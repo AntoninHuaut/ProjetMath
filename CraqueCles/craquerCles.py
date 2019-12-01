@@ -1,14 +1,18 @@
-from time import *
+# Montrer qu'avec des nombres (très) petits, les clés sont craquables très facilement
+# Et qu'avec des nombres petits (mais un peu plus grand), c'est déjà plus compliqué
+
+from time import time
 from logDiscret import discreteLogarithm
 
-print("Soit une clé publique (661, 23, 566) et une clé secrète 7")
-print("Essayons de trouver la clé secrète à partir de la clé publique via un algorithme de log discret\n")
-start = time()
-res = discreteLogarithm(23, 566, 661) # On trouve la clé secrète qui est 7
-end = time()
-print("Clé secrète trouvée en " + str(end-start) + " ms, et de valeur " + str(res))
+keyList = [((661, 23, 566), 7), ((4162261, 657413, 3473042), 844123), ((593465507, 543465507, 218967648), 513465507)]
 
-# start = time()
-# res = discreteLogarithm(2013, 831, 1073741823)
-# end = time()
-# print(str(res) + " en " + str(end-start) + " ms")
+for i in range (0, len(keyList)):
+    publicKey = keyList[i][0]
+    privateKey = keyList[i][1]
+
+    print("\nESSAIE N° " + str(i + 1) + "\n\nSoit une clé publique " + str(publicKey) + " et une clé secrète " + str(privateKey))
+    print("Essayons de trouver la clé secrète à partir de la clé publique via un algorithme de log discret\n")
+    start = time()
+    res = discreteLogarithm(publicKey[1], publicKey[2], publicKey[0]) # On trouve la clé secrète qui est 7
+    end = time()
+    print("Clé secrète trouvée en " + str(end-start) + " ms, et de valeur " + str(res) + "\n")

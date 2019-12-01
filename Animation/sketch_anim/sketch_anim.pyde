@@ -15,6 +15,7 @@ def setup():
     textAlign(CENTER);
     global alice, bob, etape, imgPublicAlice, imgPublicBob, imgPriveeAlice, imgPriveeBob, imgAlice, imgBob, imgRefresh, imgMessage, imgMessageLock, imgMechant, nbEtape
     
+    # Chargement des images
     imgPublicAlice = loadImage("clePublicAlice.png")
     imgPublicBob = loadImage("clePublicBob.png")
     imgPriveeAlice = loadImage("clePriveeAlice.png")
@@ -26,9 +27,11 @@ def setup():
     imgMessageLock = loadImage("messageLock.png")
     imgMechant = loadImage("shaco.png")
     
+    # Création des personnes
     alice = Personne(150, 150, 200, "top", "Alice")
     bob = Personne(width - 150, height - 350, 200, "bot", "Bob")
     
+    #Création message d'information
     etape = Txt("Etape", 32)
     etape.updatePos(width/2, height - 125)
     etape.setCouleur(255, 204, 0)
@@ -41,6 +44,7 @@ def draw():
     alice.show()
     bob.show()
     
+    # On dessine les méchants
     for i in range(1, 3):
         mechantAlice = IMGType(150, 150, alice)
         mechantAlice.setNom("MECHANT")
@@ -62,6 +66,7 @@ def draw():
 
 global cleAnim, messageAnim, messageLockAnim, angle
 
+# Gestion des animations
 def executeAction():
     global inAnimation, cleAnim, messageAnim, messageLockAnim, tick, angle
     if nbEtape >= 2:
