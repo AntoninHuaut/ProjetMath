@@ -1,32 +1,30 @@
+import sys
+sys.path.append("../ElGamal")
 from math import sqrt
+from utils import expMod
 
+# https://www.geeksforgeeks.org/discrete-logarithm-find-integer-k-ak-congruent-modulo-b/
 def discreteLogarithm(a, b, m):
-
     n = int(sqrt(m) + 1)
-
-    # Calculate a ^ n
-    an = 1
-    for i in range(n):
-        an = (an * a) % m
 
     value = [0] * m
 
     # Store all values of a^(n*i) of LHS
-    cur = an
-    for i in range(1, n + 1):
-        if (value[cur] == 0):
-            value[cur] = i
-        cur = (cur * an) % m
+    for i in range(n, 0, -1):
+        value[expMod(a, i * n, m)] = i
 
-    cur = b
-    for i in range(n + 1):
+    for j in range(n):
 
         # Calculate (a ^ j) * b and check
         # for collision
-        if (value[cur] > 0):
-            ans = value[cur] * n - i
+        cur = (expMod(a, j, m) * b) % m
+
+        # If collision occurs i.e., LHS = RHS
+        if (value[cur]):
+            ans = value[cur] * n - j
+
+            # Check whether ans lies below m or not
             if (ans < m):
                 return ans
-        cur = (cur * a) % m
 
     return -1
