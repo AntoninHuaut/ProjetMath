@@ -13,6 +13,9 @@ for i in range (0, len(keyList)):
     print("\nESSAIE N° " + str(i + 1) + "\n\nSoit une clé publique " + str(publicKey) + " et une clé secrète " + str(privateKey))
     print("Essayons de trouver la clé secrète à partir de la clé publique via un algorithme de log discret\n")
     start = time()
-    res = discreteLogarithm(publicKey[1], publicKey[2], publicKey[0]) # On trouve la clé secrète qui est 7
-    end = time()
-    print("Clé secrète trouvée en " + str(end-start) + " ms, et de valeur " + str(res) + "\n")
+    try:
+        res = discreteLogarithm(publicKey[1], publicKey[2], publicKey[0]) # On trouve la clé secrète qui est 7
+        end = time()
+        print("Clé secrète trouvée en " + str(end-start) + " ms, et de valeur " + str(res) + "\n")
+    except MemoryError:
+        print("ERREUR : Pas assez de RAM")
