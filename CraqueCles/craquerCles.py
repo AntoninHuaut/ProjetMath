@@ -18,4 +18,4 @@ for i in range (0, len(keyList)):
         end = time()
         print("Clé secrète trouvée en " + str(end-start) + " ms, et de valeur " + str(res) + "\n")
     except MemoryError:
-        print("ERREUR : Pas assez de RAM")
+        print("ERREUR : Pas assez de RAM (Nécessite Python 64 bits)")
