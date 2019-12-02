@@ -1,10 +1,10 @@
-global speedAnim, framerate, nbEtape, msgEtape, tick, tickMechant, inAnimation
+global speedAnim, framerate, nbEtape, msgEtape, tick, tickXMechant, inverseMechant, inAnimation
 
 # CONFIGURATION
 framerate, speedAnim = 60, 2.5
 # -------------
 
-nbEtape, inAnimation, tick, tickMechant = 0, 0, 0, 0
+nbEtape, inAnimation, tick, tickXMechant, inverseMechant = 0, 0, 0, 0, False
 msgEtape = ["Situation de départ : Alice et Bob\nveulent s'envoyer un message", "Ils ne veulent pas que leurs messages\npuissent être lus par d'autres personnes", "Alice : génération de la paire de clés", "Bob : génération de la paire de clés",
             "Bob récupère la clé publique d'Alice", "Bob génère et chiffre son message\n en utilisant la clé publique d'Alice", "Bob envoie son message chiffré à Alice",
             "Alice récupère le message chiffré de Bob", "Alice utilise sa clé privée\npour déchiffrer le message"]
@@ -39,21 +39,21 @@ def setup():
  
 def draw():
     background(128)
-    global nbEtape, tick
+    global nbEtape, tick, tickXMechant, inverseMechant
     
     alice.show()
     bob.show()
     
     # On dessine les méchants
-    for i in range(1, 3):
-        mechantAlice = IMGType(150, 150, alice)
+    for i in range(1, 3):        
+        mechantAlice = IMGType(100, 125, alice)
         mechantAlice.setNom("MECHANT")
-        mechantAlice.addPos(120 * i, 170 * i)
+        mechantAlice.addPos(120 * i + tickXMechant/2, 170 * i + tickXMechant/2)
         mechantAlice.show()
         
-        mechantBob = IMGType(350, 50, alice)
+        mechantBob = IMGType(300, 15, alice)
         mechantBob.setNom("MECHANT")
-        mechantBob.addPos(120 * i, 120 * i)
+        mechantBob.addPos(120 * i + tickXMechant/2, 100 * i + tickXMechant/2)
         mechantBob.show()
     
     newTexte = "Etape " + str(nbEtape+1) + "\n" + msgEtape[nbEtape]
@@ -63,6 +63,17 @@ def draw():
     
     executeAction()
     tick += 1
+    
+    if inverseMechant:
+        tickXMechant += 1
+        
+        if tickXMechant >= 200:
+            inverseMechant = False
+    else:
+        tickXMechant -= 1
+        
+        if tickXMechant <= 0:
+            inverseMechant = True
 
 global cleAnim, messageAnim, messageLockAnim, angle
 
