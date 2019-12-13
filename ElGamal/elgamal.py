@@ -5,8 +5,8 @@ import genKeys
 print("\nGENERATION CLES")
 genKeys.genere_cle_Alice()
 print("    Clé Alice:")
-print("        Privé = " + str(genKeys.priveAlice))
-print("        Public = " + str(genKeys.publicAlice))
+print("        Privée = " + str(genKeys.priveAlice))
+print("        Publique = " + str(genKeys.publicAlice))
 
 # Situation de Bob qui envoie un message à Alice
 print("\nENCODAGE")

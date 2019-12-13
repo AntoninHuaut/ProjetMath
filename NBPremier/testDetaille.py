@@ -64,7 +64,7 @@ def tempsPremier(): #Enregistre les nombres générés dans un fichier txt et le
         debut = time()
         p = nbPremier(puissanceMin, puissanceMax, precision)
         fin = time()
-        print(round(((i+n)/n-1)*100, 2), "%, nombre : ", p)
+        print("nombre : ", p)
         temps += fin - debut
         fichier.write("\n" + str(p) + " en " + str(round(temps, 5)) + " s")
 
